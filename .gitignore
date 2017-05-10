@@ -1,3 +1,7 @@
+# Custom Additions
+test_image
+.env
+
 # Logs
 logs
 *.log
