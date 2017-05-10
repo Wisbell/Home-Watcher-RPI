@@ -1,0 +1,24 @@
+{
+  "name": "Home-Watcher-RPI",
+  "version": "1.0.0",
+  "description": "Code for Raspberry Pi functionality for back-end capstone",
+  "main": "test-aws.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wisbell/Home-Watcher-RPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wisbell/Home-Watcher-RPI/issues"
+  },
+  "homepage": "https://github.com/Wisbell/Home-Watcher-RPI#readme",
+  "dependencies": {
+    "aws-sdk": "^2.49.0",
+    "dotenv": "^4.0.0"
+  }
+}
