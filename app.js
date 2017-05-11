@@ -1,6 +1,5 @@
 
 // Require
-
 // johnny-five, raspi-io, aws-sdk, child-process(exec),fs (filesystem), dotenv(config)
 
 // Require environment variables
@@ -24,48 +23,75 @@ AWS.config.update({
 
 // Set up interface for Raspberry Pi hardware
 const board = new Five.Board({
-        io: new Raspi()
-    });
+  io: new Raspi()
+});
 
 // Once board created check to see if its ready
 board.on("ready", function(){
   console.log("board ready")
 
   // Set up motion module to use port General Purpose Input/Output port 7 on the Raspberry Pi
-  const motion = new five.Motion('GPIO7')
+  const motion = new Five.Motion('GPIO7')
 
   // Make sure motion sensor is properly calibrated
   motion.on("calibrated", function(){
-          console.log("calibrated")
-      })
+    console.log("calibrated")
+  })
 
   // Fire 'motionstart' event when
   motion.on("motionstart", function(){
-          console.log("motion started")
+    console.log("motion started")
 
-          // set execution parameters programatically
+    // set execution parameters programatically
 
-            // generate a new image name by date
+      // generate a new image name by date
 
-          let cameraArgument = ["/opt/vc/bin/raspistill", ] // finish adding arguments
-          // look up additional arguments
+      // Picture from camera can be manipulated using the -vf and/or -hf arguments
 
-          // use new Date() as file name
+      // Set time out with -t argument, default is 5 seconds
 
-          exec('/opt/vc/bin/raspistill -o image.jpg', (err, stdout, stderr) => {
-              if(err) {
-                  console.log("error", err)
-              }
-              console.log("pic taken")
+      // Remove previewing of pictures on the RPI with the '-n' flag
+
+    // Check to see if an image is currently being processed
+    if (!processingImage) {
+
+      processingImage = true
+
+      // Create date for picture file name
+      let createFileNameAsDate = () => {
+        let date = new Date()
+        return date.toString().split(" ").join("_")
+      }
+
+      // Create argument to pass to execute raspistill
+      let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createFileNameAsDate() ].join(" ")
+
+      let takePicture = () => {
+        return new Promise( (resolve, reject) => {
+          exec(cameraArgument, (err, stdout, stderr) => {
+            if(err) {
+              console.log("error", err)
+              reject()
+            }
+            console.log("pic taken")
+            resolve()
           })
+        })
+      }
 
+      takePicture()
+      .then( () => {
+        console.log("What's next?")
       })
+    }
+
+  })
 
   motion.on("motionend", function(){
-          console.log("motion ended")
-      })
+    console.log("motion ended")
+  })
 
   motion.on("change", function(){
-          console.log("change fired")
-      })
+    console.log("change fired")
+  })
 })
