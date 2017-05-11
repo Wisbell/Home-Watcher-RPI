@@ -1,10 +1,7 @@
-
-// Require
-// johnny-five, raspi-io, aws-sdk, child-process(exec),fs (filesystem), dotenv(config)
-
 // Require environment variables
 require("dotenv").config()
 
+// Necessary Modules
 const { exec } = require("child_process")
 const fs = require("fs")
 const AWS = require("aws-sdk")
@@ -20,6 +17,12 @@ AWS.config.update({
   secretAccessKey: process.env.S3_SECRET,
   region:          process.env.S3_REGION
 });
+
+let s3 = new AWS()
+
+let myBucket = 'home-watcher';
+
+let myKey = 'myBucketKey3';
 
 // Set up interface for Raspberry Pi hardware
 const board = new Five.Board({
@@ -81,9 +84,18 @@ board.on("ready", function(){
       }
 
       takePicture()
+      // Read picture file
       .then( () => {
-        console.log("What's next?")
-        // read image and send it to AWS, duh
+
+        fs.readFile('test_image.jpg', (err, data) => {
+          if(err) throw err;
+          else {
+            console.log('read picture file')
+            // resolve(data)
+            return data
+          }
+        })
+
       })
     }
 
