@@ -19,6 +19,8 @@
   "homepage": "https://github.com/Wisbell/Home-Watcher-RPI#readme",
   "dependencies": {
     "aws-sdk": "^2.49.0",
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "johnny-five": "^0.10.13",
+    "raspi-io": "^8.0.1"
   }
 }
