@@ -11,7 +11,7 @@ console.log("testing date")
 
 let createFileNameAsDate = () => {
       let date = new Date()
-      return date.toString().split(" ").join("_")
+      return date.toString().replace('(', ':').replace(')', ':').split(" ").join("_")
     }
 
     let cameraArgument = ["/opt/vc/bin/raspistill", "-o", createFileNameAsDate()].join(" ")

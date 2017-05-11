@@ -33,5 +33,4 @@
     5 - send url, type of media, and date the picture was taken to mongoDB
 
           - just do a post with the required information to media/new
-    https://gist.github.com/Wisbell/b1578a30e8a13ec9ab022cfad149a175
 */
