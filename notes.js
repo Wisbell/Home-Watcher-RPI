@@ -34,3 +34,17 @@
 
           - just do a post with the required information to media/new
 */
+
+/*
+  Random
+
+   // set execution parameters programatically
+
+      // generate a new image name by date
+
+      // Picture from camera can be manipulated using the -vf and/or -hf arguments
+
+      // Set time out with -t argument, default is 5 seconds
+
+      // Remove previewing of pictures on the RPI with the '-n' flag
+*/

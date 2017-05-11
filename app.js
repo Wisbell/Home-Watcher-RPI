@@ -22,8 +22,6 @@ let s3 = new AWS.S3()
 
 let myBucket = 'home-watcher';
 
-// let myKey = 'myBucketKey3';
-
 // Set up interface for Raspberry Pi hardware
 const board = new Five.Board({
   io: new Raspi()
@@ -45,16 +43,6 @@ board.on("ready", function(){
   motion.on("motionstart", function(){
     console.log("motion started")
 
-    // set execution parameters programatically
-
-      // generate a new image name by date
-
-      // Picture from camera can be manipulated using the -vf and/or -hf arguments
-
-      // Set time out with -t argument, default is 5 seconds
-
-      // Remove previewing of pictures on the RPI with the '-n' flag
-
     // Check to see if an image is currently being processed
     if (!processingImage) {
 
@@ -64,9 +52,7 @@ board.on("ready", function(){
       let createFileNameAsDate = () => {
         let date = new Date()
         return date.toString().replace("(", ":").replace(")", ":").split(" ").join("_") + ".jpg"
-        // return 'test_image'
       }
-
 
       // Create argument to pass to execute raspistill
       let fileName = createFileNameAsDate()
@@ -78,10 +64,9 @@ board.on("ready", function(){
           exec(cameraArgument, (err, stdout, stderr) => {
             if(err) {
               console.log("error", err)
-              reject()
+              reject(err)
             }
-            console.log("pic taken")
-            // pass the path of the file to the .then()
+            console.log('Done taking picture')
             resolve(createPath)
           })
         })
@@ -94,7 +79,7 @@ board.on("ready", function(){
           fs.readFile(filePath, (err, data) => {
             if(err) throw err;
             else {
-              console.log('done reading picture')
+              console.log('Done reading picture')
               resolve( { data, filePath })
             }
           })
@@ -104,65 +89,34 @@ board.on("ready", function(){
 
       //Begin Promise Chain
       takePicture()
-
-
       .then( (filePath) => {
-        console.log("next stuff - read picture file")
-        //console.log("filePath then", filePath)
 
-        /* -- This works --
-        fs.readFile('test_image.jpg', (err, data) => {
-          if(err) throw err;
-          else {
-            console.log('read picture file')
-            // resolve(data)
-            console.log('data', data)
-            return data
-          }
-        })
-        */
-
-        // promise takes in filePath as argument
         readPicturePromise(filePath)
         .then( ({data, filePath}) => {
-            console.log("next stuff 2 - AWS stuff here")
-
-            console.log("data", data)
-            console.log("filePath", filePath)
 
             s3.createBucket({Bucket: myBucket}, function(err) {
 
             if (err) {
-
                console.log(err);
+            } else {
 
-               } else {
+              params = {Bucket: myBucket, Key: filePath, Body: data}
 
-                 params = {Bucket: myBucket, Key: filePath, Body: data};
+              s3.putObject(params, function(err, data) {
 
-                 s3.putObject(params, function(err, data) {
+                if (err) {
+                  console.log(err)
+                } else {
+                  console.log(`Successfully uploaded data to ${myBucket}/${filePath}`);
+                  processingImage = false
+                }
 
-                     if (err) {
+              })
+            }
 
-                         console.log(err)
-
-                     } else {
-
-                         console.log("Successfully uploaded data to myBucket/myKey");
-
-                     }
-
-                  });
-
-               }
-
-            });
-
-
+          })
         })
       })
-
-
     } // Closes if statement for proccessing image
 
   })
