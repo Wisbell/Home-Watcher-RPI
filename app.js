@@ -67,9 +67,9 @@ board.on("ready", function(){
         // return 'test_image'
       }
 
-      let fileName = createFileNameAsDate()
 
       // Create argument to pass to execute raspistill
+      let fileName = createFileNameAsDate()
       let createPath = "images/" + fileName
       let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
 
@@ -81,15 +81,17 @@ board.on("ready", function(){
               reject()
             }
             console.log("pic taken")
+            // pass the path of the file to the .then()
             resolve(createPath)
           })
         })
       }
 
-      let readPicturePromise = () => {
-        console.log('filePath', filePath)
+      let readPicturePromise = (filePath) => {
+        console.log('filePath in readPicPromise', filePath)
+        
         return new Promise( (resolve, reject) => {
-          fs.readFile('images/test_image.jpg', (err, data) => {
+          fs.readFile(filePath, (err, data) => {
             if(err) throw err;
             else {
               console.log('done reading picture')
@@ -97,13 +99,16 @@ board.on("ready", function(){
             }
           })
         })
+        
       }
 
       //Begin Promise Chain
       takePicture()
+
+      
       .then( (filePath) => {
         console.log("next stuff - read picture file")
-        console.log("filePath", filePath)
+        //console.log("filePath then", filePath)
 
         /* -- This works --
         fs.readFile('test_image.jpg', (err, data) => {
@@ -117,13 +122,15 @@ board.on("ready", function(){
         })
         */
 
-        readPicturePromise()
-      })
-      // .then( (data) => {
-      //       console.log("next stuff 2")
+        // promise takes in filePath as argument
+        readPicturePromise(filePath)
+        .then( (data) => {
+             console.log("next stuff 2 - AWS stuff here")
 
-      //       console.log("data", data)
-      //  })
+             console.log("data", data)
+        })
+      })
+
 
     } // Closes if statement for proccessing image
 
