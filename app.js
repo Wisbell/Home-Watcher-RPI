@@ -89,23 +89,23 @@ board.on("ready", function(){
 
       let readPicturePromise = (filePath) => {
         console.log('filePath in readPicPromise', filePath)
-        
+
         return new Promise( (resolve, reject) => {
           fs.readFile(filePath, (err, data) => {
             if(err) throw err;
             else {
               console.log('done reading picture')
-              resolve(data)
+              resolve( { data, filePath })
             }
           })
         })
-        
+
       }
 
       //Begin Promise Chain
       takePicture()
 
-      
+
       .then( (filePath) => {
         console.log("next stuff - read picture file")
         //console.log("filePath then", filePath)
@@ -124,10 +124,41 @@ board.on("ready", function(){
 
         // promise takes in filePath as argument
         readPicturePromise(filePath)
-        .then( (data) => {
-             console.log("next stuff 2 - AWS stuff here")
+        .then( ({data, filePath}) => {
+            console.log("next stuff 2 - AWS stuff here")
 
-             console.log("data", data)
+            console.log("data", data)
+            console.log("filePath", filePath)
+
+            // s3.createBucket({Bucket: myBucket}, function(err) {
+
+            // if (err) {
+
+            //    console.log(err);
+
+            //    } else {
+
+            //      params = {Bucket: myBucket, Key: myKey, Body: data};
+
+            //      s3.putObject(params, function(err, data) {
+
+            //          if (err) {
+
+            //              console.log(err)
+
+            //          } else {
+
+            //              console.log("Successfully uploaded data to myBucket/myKey");
+
+            //          }
+
+            //       });
+
+            //    }
+
+            // });
+
+
         })
       })
 
