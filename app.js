@@ -22,7 +22,7 @@ let s3 = new AWS.S3()
 
 let myBucket = 'home-watcher';
 
-let myKey = 'myBucketKey3';
+// let myKey = 'myBucketKey3';
 
 // Set up interface for Raspberry Pi hardware
 const board = new Five.Board({
@@ -130,33 +130,33 @@ board.on("ready", function(){
             console.log("data", data)
             console.log("filePath", filePath)
 
-            // s3.createBucket({Bucket: myBucket}, function(err) {
+            s3.createBucket({Bucket: myBucket}, function(err) {
 
-            // if (err) {
+            if (err) {
 
-            //    console.log(err);
+               console.log(err);
 
-            //    } else {
+               } else {
 
-            //      params = {Bucket: myBucket, Key: myKey, Body: data};
+                 params = {Bucket: myBucket, Key: filePath, Body: data};
 
-            //      s3.putObject(params, function(err, data) {
+                 s3.putObject(params, function(err, data) {
 
-            //          if (err) {
+                     if (err) {
 
-            //              console.log(err)
+                         console.log(err)
 
-            //          } else {
+                     } else {
 
-            //              console.log("Successfully uploaded data to myBucket/myKey");
+                         console.log("Successfully uploaded data to myBucket/myKey");
 
-            //          }
+                     }
 
-            //       });
+                  });
 
-            //    }
+               }
 
-            // });
+            });
 
 
         })
