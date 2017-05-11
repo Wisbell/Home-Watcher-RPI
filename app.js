@@ -45,18 +45,6 @@ board.on("ready", function(){
   motion.on("motionstart", function(){
     console.log("motion started")
 
-    let readPicturePromise = () => {
-  return new Promise( (resolve, reject) => {
-    fs.readFile('images/test_image.jpg', (err, data) => {
-      if(err) throw err;
-      else {
-        console.log('done reading picture')
-        resolve(data)
-      }
-    })
-  })
-}
-
     // set execution parameters programatically
 
       // generate a new image name by date
@@ -75,12 +63,14 @@ board.on("ready", function(){
       // Create date for picture file name
       let createFileNameAsDate = () => {
         let date = new Date()
-        //return date.toString().replace("(", ":").replace(")", ":").split(" ").join("_")
-        return 'test_image'
+        return date.toString().replace("(", ":").replace(")", ":").split(" ").join("_") + ".jpg"
+        // return 'test_image'
       }
 
+      let fileName = createFileNameAsDate()
+
       // Create argument to pass to execute raspistill
-      let createPath = "images/" + createFileNameAsDate() + ".jpg"
+      let createPath = "images/" + fileName
       let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
 
       let takePicture = () => {
@@ -91,17 +81,31 @@ board.on("ready", function(){
               reject()
             }
             console.log("pic taken")
-            resolve()
+            resolve(createPath)
           })
         })
       }
 
-      takePicture()
-      // Read picture file
-      .then( () => {
-        console.log("next stuff")
+      let readPicturePromise = () => {
+        console.log('filePath', filePath)
+        return new Promise( (resolve, reject) => {
+          fs.readFile('images/test_image.jpg', (err, data) => {
+            if(err) throw err;
+            else {
+              console.log('done reading picture')
+              resolve(data)
+            }
+          })
+        })
+      }
 
-        /*
+      //Begin Promise Chain
+      takePicture()
+      .then( (filePath) => {
+        console.log("next stuff - read picture file")
+        console.log("filePath", filePath)
+
+        /* -- This works --
         fs.readFile('test_image.jpg', (err, data) => {
           if(err) throw err;
           else {
@@ -112,14 +116,16 @@ board.on("ready", function(){
           }
         })
         */
+
         readPicturePromise()
       })
-      .then( (data) => {
-            console.log("next stuff 2")
+      // .then( (data) => {
+      //       console.log("next stuff 2")
 
-            console.log("data", data)
-       })
-    }
+      //       console.log("data", data)
+      //  })
+
+    } // Closes if statement for proccessing image
 
   })
 
