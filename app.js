@@ -60,7 +60,8 @@ board.on("ready", function(){
       // Create date for picture file name
       let createFileNameAsDate = () => {
         let date = new Date()
-        return date.toString().split(" ").join("_")
+        //return date.toString().replace("(", ":").replace(")", ":").split(" ").join("_")
+        return 'test_image'
       }
 
       // Create argument to pass to execute raspistill
@@ -82,6 +83,7 @@ board.on("ready", function(){
       takePicture()
       .then( () => {
         console.log("What's next?")
+        // read image and send it to AWS, duh
       })
     }
 
