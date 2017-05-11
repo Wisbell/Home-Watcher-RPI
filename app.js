@@ -18,7 +18,7 @@ AWS.config.update({
   region:          process.env.S3_REGION
 });
 
-let s3 = new AWS()
+let s3 = new AWS.S3()
 
 let myBucket = 'home-watcher';
 
@@ -45,6 +45,18 @@ board.on("ready", function(){
   motion.on("motionstart", function(){
     console.log("motion started")
 
+    let readPicturePromise = () => {
+  return new Promise( (resolve, reject) => {
+    fs.readFile('images/test_image.jpg', (err, data) => {
+      if(err) throw err;
+      else {
+        console.log('done reading picture')
+        resolve(data)
+      }
+    })
+  })
+}
+
     // set execution parameters programatically
 
       // generate a new image name by date
@@ -68,7 +80,8 @@ board.on("ready", function(){
       }
 
       // Create argument to pass to execute raspistill
-      let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createFileNameAsDate() ].join(" ")
+      let createPath = "images/" + createFileNameAsDate() + ".jpg"
+      let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
 
       let takePicture = () => {
         return new Promise( (resolve, reject) => {
@@ -86,17 +99,26 @@ board.on("ready", function(){
       takePicture()
       // Read picture file
       .then( () => {
+        console.log("next stuff")
 
+        /*
         fs.readFile('test_image.jpg', (err, data) => {
           if(err) throw err;
           else {
             console.log('read picture file')
             // resolve(data)
+            console.log('data', data)
             return data
           }
         })
-
+        */
+        readPicturePromise()
       })
+      .then( (data) => {
+            console.log("next stuff 2")
+
+            console.log("data", data)
+       })
     }
 
   })
