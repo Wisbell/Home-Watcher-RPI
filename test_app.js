@@ -96,7 +96,7 @@ board.on("ready", function(){
                console.log(err);
             } else {
               console.log('in Else')
-              params = {Bucket: myBucket, ACL: "public-read", Key: filePath, Body: dataBuffer}
+              params = {Bucket: myBucket, ACL: "public-read", Key: filePath, Body: dataBuffer, ContentType: "image/jpeg"}
 
               s3.upload(params, function(err, data){
                 if (err) {
