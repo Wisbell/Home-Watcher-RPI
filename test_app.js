@@ -104,8 +104,8 @@ board.on("ready", function(){
                 } else {
                   console.log(`Successfully uploaded data to ${myBucket}/${filePath}`);
                   console.log("data", data)
-                  // resolve(data)
-                  resolve(true)
+                  resolve(data)
+                  //resolve(true)
                 }
               })
             }
@@ -121,7 +121,10 @@ board.on("ready", function(){
           return readPictureFile(filePath)
         })
         .then( (dataObject) => {
-          return sendPictureToAWS({dataBuffer, filePath})
+          return sendPictureToAWS(dataObject)
+        })
+        .then( (data) => {
+          console.log("the data", data)
         })
 
 
