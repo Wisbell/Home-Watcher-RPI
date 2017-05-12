@@ -46,7 +46,7 @@ board.on("ready", function(){
     // Check to see if an image is currently being processed
     if (!processingImage) {
 
-      //processingImage = true
+      processingImage = true
 
       // Create date for picture file name
       let createFileNameAsDate = () => {
@@ -59,75 +59,104 @@ board.on("ready", function(){
       let createPath = "images/" + fileName
       let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
 
-      exec(cameraArgument, (err, stdout, stderr) => {
+      let takePicture = () => {
+        return new Promise( (resolve, reject) => {
+          exec(cameraArgument, (err, stdout, stderr) => {
             if(err) {
               console.log("error", err)
               reject(err)
             }
             console.log('Done taking picture')
-            // resolve(createPath)
+            resolve(createPath)
           })
+        })
+      }
 
-      fs.readFile(filePath, (err, data) => {
+      let readPictureFile = (filePath) => {
+        console.log('filePath in readPicPromise', filePath)
+
+        return new Promise( (resolve, reject) => {
+          fs.readFile(filePath, (err, data) => {
             if(err) throw err;
             else {
               console.log('Done reading picture')
               resolve( { data, filePath })
             }
           })
+        })
+
+      }
 
       //Begin Promise Chain
-      // takePicture()
-      // .then( (filePath) => {
+      takePicture()
+      .then( (filePath) => {
+        fs.readFile(filePath, (err, data) => {
+          if(err) throw err;
+          else {
+            console.log('Done reading picture')
+            return { data, filePath }
+          }
+        })
+      })
 
-      //   readPictureFile(filePath)
-      //   .then( ({data, filePath}) => {
+      .then( ({data, filePath}) => {
+        console.log("my stuff")
+        console.log("data", data)
+        console.log("filePath", filePath)
+      })
 
-      //       let stuff
 
-      //       s3.createBucket({Bucket: myBucket}, function(err) {
 
-      //       if (err) {
-      //          console.log(err);
-      //       } else {
 
-      //         params = {Bucket: myBucket, ACL: "public-read", Key: filePath, Body: data}
+      // readPictureFile(filePath)
+        // .then( ({data, filePath}) => {
 
-      //         // s3.putObject(params, function(err, data) {
+        //     let stuff
 
-      //         //   if (err) {
-      //         //     console.log(err)
-      //           // } else {
-      //           //   console.log(`Successfully uploaded data to ${myBucket}/${filePath}`);
-      //           //   //processingImage = false
-      //           // }
+        //     s3.createBucket({Bucket: myBucket}, function(err) {
 
-      //         // })
+        //     if (err) {
+        //        console.log(err);
+        //     } else {
 
-      //         s3.upload(params, function(err, data){
-      //           if (err) {
-      //             console.log(err)
-      //           } else {
-      //             console.log(`Successfully uploaded data to ${myBucket}/${filePath}`);
-      //             console.log("data", data)
-      //             stuff = "stuff"
-      //             return data
-      //             //processingImage = false
-      //           }
-      //         })
-      //       }
+        //       params = {Bucket: myBucket, ACL: "public-read", Key: filePath, Body: data}
 
-      //     })
+        //       // s3.putObject(params, function(err, data) {
 
-      //   })
-      //   .then( (data) => {
-      //     console.log('send data to mongo db')
-      //     console.log("data", data)
-      //   })
-      //   .then( () => {
-      //     console.log('delete the picture file')
-      //     // after the picture file is deleted reset the proccessingImage flag var
-      //   })
+        //       //   if (err) {
+        //       //     console.log(err)
+        //         // } else {
+        //         //   console.log(`Successfully uploaded data to ${myBucket}/${filePath}`);
+        //         //   //processingImage = false
+        //         // }
+
+        //       // })
+
+        //       s3.upload(params, function(err, data){
+        //         if (err) {
+        //           console.log(err)
+        //         } else {
+        //           console.log(`Successfully uploaded data to ${myBucket}/${filePath}`);
+        //           console.log("data", data)
+        //           stuff = "stuff"
+        //           return data
+        //           //processingImage = false
+        //         }
+        //       })
+        //     }
+
+        //   })
+
+        // })
+        // .then( (data) => {
+        //   console.log('send data to mongo db')
+        //   console.log("data", data)
+        // })
+        // .then( () => {
+        //   console.log('delete the picture file')
+        //   // after the picture file is deleted reset the proccessingImage flag var
+        // })
+
       // })
     } // Closes if statement for proccessing image
 
