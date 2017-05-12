@@ -119,6 +119,7 @@ board.on("ready", function(){
                 } else {
                   console.log(`Successfully uploaded data to ${myBucket}/${filePath}`);
                   console.log("data", data)
+                  return data
                   //processingImage = false
                 }
               })
@@ -126,8 +127,9 @@ board.on("ready", function(){
 
           })
         })
-        .then( () => {
+        .then( (data) => {
           console.log('send data to mongo db')
+          console.log("data", data)
         })
         .then( () => {
           console.log('delete the picture file')
