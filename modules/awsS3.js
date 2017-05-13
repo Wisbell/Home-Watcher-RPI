@@ -40,3 +40,14 @@ module.exports.sendPictureToAWS = ( {dataBuffer, filePath} ) => {
   })
 
 }
+
+module.exports.listObjects = () => {
+  return new Promise( (resolve, reject) => {
+
+    s3.listObjects({Bucket: myBucket}, function(err, data) {
+      if(err) console.log(err, err.stack);
+      else    resolve(console.log(data));
+
+    })
+  })
+}
