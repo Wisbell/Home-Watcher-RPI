@@ -15,6 +15,7 @@ module.exports.startPictureProcess = () => {
   if (!processingImage) {
 
     processingImage = true
+    let currentImageFile
 
     //Begin Promise Chain
 
@@ -22,6 +23,8 @@ module.exports.startPictureProcess = () => {
     takePicture()
       // Read picture file
       .then( (filePath) => {
+        currentImageFile = filePath
+        console.log('currentImageFile', currentImageFile)
         return readPictureFile(filePath)
       })
       // Send picture to AWS S3
@@ -30,14 +33,12 @@ module.exports.startPictureProcess = () => {
       })
       // Send returned URL to MongoDB
       .then( (data) => {
-        //console.log("the data", data) // data.location
-
         postData(data)
       })
-      // Delete picture file on RPI
-
-      // Switch readFile to readStream to avoid this step?
-
+      // Delete picture file on RPI -- Switch readFile to readStream to avoid this step?
+      .then( () => {
+        console.log("currentImageFile2", currentImageFile)
+      })
       // reset processingImage flag variable
 
 
