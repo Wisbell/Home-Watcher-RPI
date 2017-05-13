@@ -21,6 +21,7 @@
     "aws-sdk": "^2.49.0",
     "dotenv": "^4.0.0",
     "johnny-five": "^0.10.13",
-    "raspi-io": "^8.0.1"
+    "raspi-io": "^8.0.1",
+    "request": "^2.81.0"
   }
 }
