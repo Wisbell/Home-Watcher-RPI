@@ -2,7 +2,7 @@ console.log('postDataToMongoDB.js called')
 
 // post data to MongoDB
 
-const { post } = require('request')
+const request = require('request')
 
 let databasePostUrl = 'http://192.168.100.4:8080/api/v1/media/new'
 
@@ -31,14 +31,18 @@ module.exports.postData = (data) => {
   console.log('dataToPost', dataToPost)
 
   let options = {
-    method: "POST",
-    'content-type': 'application/json',
+    method: 'POST',
     url: databasePostUrl,
-    json: true,
-    body: dataToPost
+    headers: {
+        'content-type': 'application/json',
+        },
+    body: dataToPost,
   }
 
-  request.post(options)
+  request(options, (err, res, body) => {
+        if (err) {console.log('err', err)};
+        console.log(res.statusCode)
+    })
 
 }
 
