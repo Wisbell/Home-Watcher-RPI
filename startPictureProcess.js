@@ -1,11 +1,16 @@
 let { takePicture } = require('./modules/takePicture')
 let { readPictureFile } = require('./modules/readPictureFile')
 let { sendPictureToAWS } = require('./modules/awsS3')
+let { postData } = require('./modules/postDataToMongoDB')
+
 
 // Set flag variable to prevent overloading the Raspberry Pi
 let processingImage = false;
 
 module.exports.startPictureProcess = () => {
+
+  let currentPictureFileName
+
   // Check to see if an image is currently being processed
   if (!processingImage) {
 
@@ -25,7 +30,9 @@ module.exports.startPictureProcess = () => {
       })
       // Send returned URL to MongoDB
       .then( (data) => {
-        console.log("the data", data)
+        console.log("the data", data) // data.location
+
+        postData(data)
       })
       // Delete picture file on RPI
 
