@@ -30,7 +30,7 @@ module.exports.startPictureProcess = () => {
       })
       // Send returned URL to MongoDB
       .then( (data) => {
-        console.log("the data", data) // data.location
+        //console.log("the data", data) // data.location
 
         postData(data)
       })

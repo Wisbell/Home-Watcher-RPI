@@ -30,7 +30,7 @@ module.exports.sendPictureToAWS = ( {dataBuffer, filePath} ) => {
             console.log(err)
           } else {
             console.log(`Successfully uploaded data to ${myBucket}/${filePath}`);
-            console.log("data", data)
+            //console.log("data", data)
             resolve(data)
           }
         })

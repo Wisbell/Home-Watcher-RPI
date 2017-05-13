@@ -5,11 +5,13 @@ console.log('postDataToMongoDB.js called')
 const request = require('request')
 
 let parseMediaType = (data) => {
-  return data
+  return data.key.split('.')[1]
 }
 
 let parseDateCreated = (data) => {
-  return data
+  return data.key.split('/')[1]
+                 .split('.')[0]
+                 .split('_').join(' ')
 }
 
 module.exports.postData = (data) => {
