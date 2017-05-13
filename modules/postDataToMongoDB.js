@@ -11,7 +11,9 @@ let parseMediaType = (data) => {
 let parseDateCreated = (data) => {
   return data.key.split('/')[1]
                  .split('.')[0]
-                 .split('_').join(' ')
+                 .split('_')
+                 .join(' ')
+                 .replace(':', '')
 }
 
 module.exports.postData = (data) => {
