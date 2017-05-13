@@ -94,6 +94,8 @@ board.on("ready", function(){
         readPictureFile(filePath)
         .then( ({data, filePath}) => {
 
+            let stuff
+
             s3.createBucket({Bucket: myBucket}, function(err) {
 
             if (err) {
@@ -119,6 +121,7 @@ board.on("ready", function(){
                 } else {
                   console.log(`Successfully uploaded data to ${myBucket}/${filePath}`);
                   console.log("data", data)
+                  stuff = "stuff"
                   return data
                   //processingImage = false
                 }
@@ -126,6 +129,7 @@ board.on("ready", function(){
             }
 
           })
+
         })
         .then( (data) => {
           console.log('send data to mongo db')
