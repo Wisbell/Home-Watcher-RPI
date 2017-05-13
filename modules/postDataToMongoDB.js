@@ -22,26 +22,32 @@ let parseDateCreated = (data) => {
 
 module.exports.postData = (data) => {
 
-  let dataToPost = {
+  let dataToPost = JSON.stringify({
     "dateCreated": parseDateCreated(data),
     "mediaType": parseMediaType(data),
     "url": data.Location
+  })
+
+  console.log('dataToPost', dataToPost)
+
+  let options = {
+    method: "POST",
+    url: databasePostUrl,
+    json: true,
+    body: dataToPost
   }
 
-  console.log('dataToPost', JSON.stringify(dataToPost))
-
-
-  post(databasePostUrl, dataToPost, (err) => {
-    if (err) {console.log(err)}
-    else {
-      console.log('post completed')
-    }
+  request(options)
+  .then( (data) => {
+    console.log('i think it worked, check the db')
   })
-  
+
 }
 
 /*
-{"dateCreated":"Sat May 13 2017 132120 GMT-0400 EDT","mediaType":"jpg","url":"https://home-watcher.s3.amazonaws.com/images/Sat_May_13_2017_13%3A21%3A20_GMT-0400_%3AEDT%3A.jpg"}
+{"dateCreated":"Sat May 13 2017 132120 GMT-0400 EDT",
+"mediaType":"jpg",
+"url":"https://home-watcher.s3.amazonaws.com/images/Sat_May_13_2017_13%3A21%3A20_GMT-0400_%3AEDT%3A.jpg"}
 post completed
 
  */
