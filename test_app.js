@@ -4,9 +4,9 @@ require("dotenv").config()
 const Five = require("johnny-five")
 const Raspi = require("raspi-io")
 
-const { startPictureProccess } = require('./startProcess')
+const { startPictureProcess } = require('./startPictureProcess')
 
-let calibrated = false
+var calibrated = false
 
 // Set up interface for Raspberry Pi hardware
 const board = new Five.Board({
@@ -24,13 +24,14 @@ board.on("ready", function(){
   motion.on("calibrated", function(){
     console.log("calibrated")
     calibrated = true
+    console.log(calibrated)
   })
 
-  if (calibrated) {
     // Fire 'motionstart' event when
     motion.on("motionstart", function(){
       console.log("motion started")
-      startPictureProcess()
+
+      if(calibrated) startPictureProcess()
     })
 
     motion.on("motionend", function(){
@@ -40,5 +41,4 @@ board.on("ready", function(){
     motion.on("change", function(){
       console.log("change fired")
     })
-  }
 })
