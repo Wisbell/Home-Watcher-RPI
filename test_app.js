@@ -2,11 +2,16 @@
 require("dotenv").config()
 
 // Necessary Modules
-const { exec } = require("child_process")
+// const { exec } = require("child_process")
 const fs = require("fs")
 const AWS = require("aws-sdk")
 const Five = require("johnny-five")
 const Raspi = require("raspi-io")
+
+let { takePicture } = require('./takePicture')
+let { readPictureFile } = require('./readPictureFile')
+// let { sendPictureToAWS } = require('./awsS3')
+
 
 // Set flag variable to prevent overloading the Raspberry Pi
 let processingImage = false;
@@ -48,29 +53,29 @@ board.on("ready", function(){
 
       processingImage = true
 
-      // Create date for picture file name
-      let createFileNameAsDate = () => {
-        let date = new Date()
-        return date.toString().replace("(", ":").replace(")", ":").split(" ").join("_") + ".jpg"
-      }
+      // // Create date for picture file name
+      // let createFileNameAsDate = () => {
+      //   let date = new Date()
+      //   return date.toString().replace("(", ":").replace(")", ":").split(" ").join("_") + ".jpg"
+      // }
 
-      // Create argument to pass to execute raspistill
-      let fileName = createFileNameAsDate()
-      let createPath = "images/" + fileName
-      let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
+      // // Create argument to pass to execute raspistill
+      // let fileName = createFileNameAsDate()
+      // let createPath = "images/" + fileName
+      // let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
 
-      let takePicture = () => {
-        return new Promise( (resolve, reject) => {
-          exec(cameraArgument, (err, stdout, stderr) => {
-            if(err) {
-              console.log("error", err)
-              reject(err)
-            }
-            console.log('Done taking picture')
-            resolve(createPath)
-          })
-        })
-      }
+      // let takePicture = () => {
+      //   return new Promise( (resolve, reject) => {
+      //     exec(cameraArgument, (err, stdout, stderr) => {
+      //       if(err) {
+      //         console.log("error", err)
+      //         reject(err)
+      //       }
+      //       console.log('Done taking picture')
+      //       resolve(createPath)
+      //     })
+      //   })
+      // }
 
       let readPictureFile = (filePath) => {
         return new Promise( (resolve, reject) => {
