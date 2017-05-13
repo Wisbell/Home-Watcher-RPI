@@ -2,7 +2,7 @@ let { takePicture } = require('./modules/takePicture')
 let { readPictureFile } = require('./modules/readPictureFile')
 let { sendPictureToAWS } = require('./modules/awsS3')
 let { postData } = require('./modules/postDataToMongoDB')
-
+let { deletePictureFile } = require('./modules/removePictureFile.js')
 
 // Set flag variable to prevent overloading the Raspberry Pi
 let processingImage = false;
@@ -38,9 +38,12 @@ module.exports.startPictureProcess = () => {
       // Delete picture file on RPI -- Switch readFile to readStream to avoid this step?
       .then( () => {
         console.log("currentImageFile2", currentImageFile)
+        deletePictureFile(currentImageFile)
       })
       // reset processingImage flag variable
-
+      .then( () => {
+        //processingImage = false
+      })
 
   } // Closes if statement for proccessing image
 }
