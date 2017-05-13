@@ -2,21 +2,21 @@
 require("dotenv").config()
 
 // Necessary Modules
-// const { exec } = require("child_process")
-const fs = require("fs")
-const AWS = require("aws-sdk")
+//const fs = require("fs")
+//const AWS = require("aws-sdk")
 const Five = require("johnny-five")
 const Raspi = require("raspi-io")
 
 let { takePicture } = require('./takePicture')
 let { readPictureFile } = require('./readPictureFile')
-// let { sendPictureToAWS } = require('./awsS3')
+let { sendPictureToAWS } = require('./awsS3')
 
 
 // Set flag variable to prevent overloading the Raspberry Pi
 let processingImage = false;
 
 // Update AWS configuration
+/*
 AWS.config.update({
   accessKeyId:     process.env.S3_KEY,
   secretAccessKey: process.env.S3_SECRET,
@@ -26,7 +26,7 @@ AWS.config.update({
 let s3 = new AWS.S3()
 
 let myBucket = 'home-watcher';
-
+*/
 // Set up interface for Raspberry Pi hardware
 const board = new Five.Board({
   io: new Raspi()
@@ -52,43 +52,7 @@ board.on("ready", function(){
     if (!processingImage) {
 
       processingImage = true
-
-      // // Create date for picture file name
-      // let createFileNameAsDate = () => {
-      //   let date = new Date()
-      //   return date.toString().replace("(", ":").replace(")", ":").split(" ").join("_") + ".jpg"
-      // }
-
-      // // Create argument to pass to execute raspistill
-      // let fileName = createFileNameAsDate()
-      // let createPath = "images/" + fileName
-      // let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
-
-      // let takePicture = () => {
-      //   return new Promise( (resolve, reject) => {
-      //     exec(cameraArgument, (err, stdout, stderr) => {
-      //       if(err) {
-      //         console.log("error", err)
-      //         reject(err)
-      //       }
-      //       console.log('Done taking picture')
-      //       resolve(createPath)
-      //     })
-      //   })
-      // }
-
-      let readPictureFile = (filePath) => {
-        return new Promise( (resolve, reject) => {
-          fs.readFile(filePath, (err, dataBuffer) => {
-            if(err) throw err;
-            else {
-              console.log('Done reading picture')
-              resolve( { dataBuffer, filePath })
-            }
-          })
-        })
-      }
-
+      /*
       let sendPictureToAWS = ( {dataBuffer, filePath} ) => {
         console.log('filePath in AWS', filePath)
         console.log('dataBuffer in AWS', dataBuffer)
@@ -118,7 +82,7 @@ board.on("ready", function(){
         })
 
       }
-
+        */
       //Begin Promise Chain
 
       // Note - maybe set picture timeout to something other than default - default is 5 seconds
