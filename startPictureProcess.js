@@ -42,7 +42,8 @@ module.exports.startPictureProcess = () => {
       })
       // reset processingImage flag variable
       .then( () => {
-        //processingImage = false
+        // disable this if testing
+        processingImage = false
       })
 
   } // Closes if statement for proccessing image
