@@ -32,15 +32,13 @@ module.exports.postData = (data) => {
 
   let options = {
     method: "POST",
+    'content-type': 'application/json',
     url: databasePostUrl,
     json: true,
     body: dataToPost
   }
 
-  request(options)
-  .then( (data) => {
-    console.log('i think it worked, check the db')
-  })
+  request.post(options)
 
 }
 
