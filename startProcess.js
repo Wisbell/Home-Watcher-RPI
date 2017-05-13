@@ -2,6 +2,9 @@ let { takePicture } = require('./takePicture')
 let { readPictureFile } = require('./readPictureFile')
 let { sendPictureToAWS } = require('./awsS3')
 
+// Set flag variable to prevent overloading the Raspberry Pi
+let processingImage = false;
+
 module.exports.startProcess = () => {
   // Check to see if an image is currently being processed
   if (!processingImage) {
