@@ -23,6 +23,7 @@ board.on("ready", function(){
   // Make sure motion sensor is properly calibrated
   motion.on("calibrated", function(){
     console.log("calibrated")
+    calibrated = true
   })
 
   if (calibrated) {

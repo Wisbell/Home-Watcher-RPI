@@ -1,6 +1,6 @@
-let { takePicture } = require('./takePicture')
-let { readPictureFile } = require('./readPictureFile')
-let { sendPictureToAWS } = require('./awsS3')
+let { takePicture } = require('./modules/takePicture')
+let { readPictureFile } = require('./modules/readPictureFile')
+let { sendPictureToAWS } = require('./modules/awsS3')
 
 // Set flag variable to prevent overloading the Raspberry Pi
 let processingImage = false;
