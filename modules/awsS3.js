@@ -10,6 +10,7 @@ AWS.config.update({
 let s3 = new AWS.S3()
 
 let myBucket = 'home-watcher';
+let maxNumberPictures = 10;
 
 let listObjects = () => {
   return new Promise( (resolve, reject) => {
@@ -18,6 +19,20 @@ let listObjects = () => {
       if(err) console.log(err, err.stack);
       else    resolve(data.Contents);
     })
+  })
+}
+
+let deletePicture = (key) => {
+  console.log('Deleting picture from AWS S3')
+
+  params = {
+    Bucket: myBucket,
+    Key: key
+  }
+
+  s3.deleteObject(params, (err, data) => {
+    if (err) console.log(err, err.stack);
+    else     console.log("picture deleted!", data)
   })
 }
 
@@ -52,9 +67,13 @@ module.exports.sendPictureToAWS = ( {dataBuffer, filePath} ) => {
 module.exports.checkStorageAmount = () => {
   listObjects()
     .then((objectsArray) => {
-      console.log("objectsArray", objectsArray)
+      //console.log("objectsArray", objectsArray)
       console.log("objectsArray length", objectsArray.length)
-      //if(obj)
+
+      if(objectsArray.length > maxNumberPictures) {
+        console.log('lets delete a picture')
+        deletePicture(objectsArray[0].Key)
+      }
       return false
     })
 }
