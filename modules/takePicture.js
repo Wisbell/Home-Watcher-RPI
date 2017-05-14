@@ -7,12 +7,18 @@ let createFileNameAsDate = () => {
 }
 
 // Create argument to pass to execute raspistill
+//let fileName = createFileNameAsDate()
+//let createPath = "images/" + fileName
+//let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
+
+module.exports.takePicture = () => {
+  return new Promise( (resolve, reject) => {
+
+    // Create argument to pass to execute raspistill
 let fileName = createFileNameAsDate()
 let createPath = "images/" + fileName
 let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
 
-module.exports.takePicture = () => {
-  return new Promise( (resolve, reject) => {
     exec(cameraArgument, (err, stdout, stderr) => {
       if(err) {
         console.log("error", err)
