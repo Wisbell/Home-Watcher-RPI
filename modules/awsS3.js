@@ -67,11 +67,12 @@ module.exports.sendPictureToAWS = ( {dataBuffer, filePath} ) => {
 module.exports.checkStorageAmount = () => {
   listObjects()
     .then((objectsArray) => {
-      //console.log("objectsArray", objectsArray)
+      console.log("objectsArray", objectsArray)
       console.log("objectsArray length", objectsArray.length)
 
       if(objectsArray.length > maxNumberPictures) {
         console.log('lets delete a picture')
+        console.log('delete object key', objectsArray[0].Key)
         deletePicture(objectsArray[0].Key)
       }
       return false

@@ -19,7 +19,8 @@ module.exports.postData = (data) => {
     let dataToPost = JSON.stringify({
       "dateCreated": parseDateCreated(data),
       "mediaType": parseMediaType(data),
-      "url": data.Location
+      "url": data.Location,
+      "awsETag": data.ETag
     })
 
     console.log('dataToPost', dataToPost)
