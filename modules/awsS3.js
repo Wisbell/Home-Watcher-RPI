@@ -34,7 +34,10 @@ let deletePictureAWS = (key) => {
 
   s3.deleteObject(params, (err, data) => {
     if (err) console.log(err, err.stack);
-    else     console.log("picture deleted!", data)
+    else {
+      console.log("picture deleted!", data)
+      deleteData(objectsArray[0].Key)
+    }
   })
 }
 
@@ -76,6 +79,7 @@ module.exports.checkStorageAmount = () => {
         console.log('lets delete a picture')
         console.log('delete object key', objectsArray[0].Key)
         deletePictureAWS(objectsArray[0].Key)
+        // deleteData(objectsArray[0].Key)
       }
       return false
     })
