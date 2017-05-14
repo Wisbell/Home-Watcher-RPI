@@ -22,7 +22,7 @@ let listObjects = () => {
   })
 }
 
-let deletePicture = (key) => {
+let deletePictureAWS = (key) => {
   console.log('Deleting picture from AWS S3')
 
   params = {

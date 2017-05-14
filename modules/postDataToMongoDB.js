@@ -39,27 +39,27 @@ module.exports.postData = (data) => {
       resolve()
     })
   })
+}
 
-  // let dataToPost = JSON.stringify({
-  //   "dateCreated": parseDateCreated(data),
-  //   "mediaType": parseMediaType(data),
-  //   "url": data.Location
-  // })
+// module.exports.deleteData = (key) => {
+//   return new Promise((resolve, reject) => {
 
-  // console.log('dataToPost', dataToPost)
 
-  // let options = {
-  //   method: "POST",
-  //   url: databasePostUrl,
-  //   headers: {
-  //     "content-type": "application/json",
-  //     },
-  //   body: dataToPost,
-  // }
+//     console.log('dataToPost', dataToPost)
 
-  // request(options, (err, res, body) => {
-  //   if (err) {console.log('err', err)};
-  //   console.log("Response status: ", res.statusCode)
-  // })
+//     let options = {
+//       method: "POST",
+//       url: databasePostUrl,
+//       headers: {
+//         "content-type": "application/json",
+//         },
+//       body: dataToPost,
+//     }
 
+//     request(options, (err, res, body) => {
+//       if (err) {console.log('err', err)};
+//       console.log("Response status: ", res.statusCode)
+//       resolve()
+//     })
+//   })
 }
