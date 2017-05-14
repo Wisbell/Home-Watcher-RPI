@@ -1,6 +1,6 @@
 let { takePicture } = require('./modules/takePicture')
 let { readPictureFile } = require('./modules/readPictureFile')
-let { sendPictureToAWS, listObjects } = require('./modules/awsS3')
+let { sendPictureToAWS, checkStorageAmount } = require('./modules/awsS3')
 let { postData } = require('./modules/postDataToMongoDB')
 let { deletePictureFile } = require('./modules/removePictureFile.js')
 
@@ -45,7 +45,7 @@ module.exports.startPictureProcess = () => {
         // disable this if testing
         //processingImage = false
         console.log('listing objects')
-        listObjects()
+        checkStorageAmount()
       })
 
   } // Closes if statement for proccessing image

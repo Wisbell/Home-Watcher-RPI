@@ -11,6 +11,16 @@ let s3 = new AWS.S3()
 
 let myBucket = 'home-watcher';
 
+let listObjects = () => {
+  return new Promise( (resolve, reject) => {
+
+    s3.listObjects({Bucket: myBucket}, function(err, data) {
+      if(err) console.log(err, err.stack);
+      else    resolve(data.Contents);
+    })
+  })
+}
+
 module.exports.sendPictureToAWS = ( {dataBuffer, filePath} ) => {
   console.log('filePath in AWS', filePath)
   console.log('dataBuffer in AWS', dataBuffer)
@@ -35,19 +45,15 @@ module.exports.sendPictureToAWS = ( {dataBuffer, filePath} ) => {
           }
         })
       }
-
     })
   })
-
 }
 
-module.exports.listObjects = () => {
-  return new Promise( (resolve, reject) => {
-
-    s3.listObjects({Bucket: myBucket}, function(err, data) {
-      if(err) console.log(err, err.stack);
-      else    resolve(console.log(data));
-
+module.exports.checkStorageAmount = () => {
+  listObjects()
+    .then((objectsArray) => {
+      console.log("objectsArray", objectsArray)
+      console.log("objectsArray length", objectsArray.length)
+      //if(obj)
     })
-  })
 }
