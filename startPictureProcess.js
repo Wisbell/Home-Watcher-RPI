@@ -33,19 +33,19 @@ module.exports.startPictureProcess = () => {
       })
       // Send returned URL to MongoDB
       .then( (data) => {
-        postData(data)
+        return postData(data)
       })
       // Delete picture file on RPI -- Switch readFile to readStream to avoid this step?
       .then( () => {
         console.log("currentImageFile2", currentImageFile)
-        deletePictureFile(currentImageFile)
+        return deletePictureFile(currentImageFile)
       })
       // reset processingImage flag variable
       .then( () => {
         // disable this if testing
         //processingImage = false
         console.log('listing objects')
-        checkStorageAmount()
+        processingImage = checkStorageAmount()
       })
 
   } // Closes if statement for proccessing image

@@ -55,5 +55,6 @@ module.exports.checkStorageAmount = () => {
       console.log("objectsArray", objectsArray)
       console.log("objectsArray length", objectsArray.length)
       //if(obj)
+      return false
     })
 }
