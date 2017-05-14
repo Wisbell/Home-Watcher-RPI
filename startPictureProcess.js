@@ -16,6 +16,9 @@ module.exports.startPictureProcess = () => {
 
     processingImage = true
     let currentImageFile
+    var currentImageFile2
+    let count = 0
+    var count2 = 0
 
     //Begin Promise Chain
 
@@ -24,7 +27,14 @@ module.exports.startPictureProcess = () => {
       // Read picture file
       .then( (filePath) => {
         currentImageFile = filePath
+        currentImageFile2 = filePath
+        console.log("count", count)
+        console.log("count num 2", count)
+        count = count + 1
+        count2 = count + 1
+
         console.log('currentImageFile', currentImageFile)
+        console.log('currentImageFile num 2', currentImageFile)
         return readPictureFile(filePath)
       })
       // Send picture to AWS S3
