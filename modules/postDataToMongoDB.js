@@ -20,7 +20,7 @@ module.exports.postData = (data) => {
       "dateCreated": parseDateCreated(data),
       "mediaType": parseMediaType(data),
       "url": data.Location,
-      "awsETag": data.ETag
+      "awsKey": data.Key
     })
 
     console.log('dataToPost', dataToPost)
@@ -63,4 +63,4 @@ module.exports.postData = (data) => {
 //       resolve()
 //     })
 //   })
-}
+// }

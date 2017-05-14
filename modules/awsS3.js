@@ -73,7 +73,7 @@ module.exports.checkStorageAmount = () => {
       if(objectsArray.length > maxNumberPictures) {
         console.log('lets delete a picture')
         console.log('delete object key', objectsArray[0].Key)
-        deletePicture(objectsArray[0].Key)
+        deletePictureAWS(objectsArray[0].Key)
       }
       return false
     })
