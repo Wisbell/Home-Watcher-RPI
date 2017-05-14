@@ -14,13 +14,18 @@ let parseDateCreated = (data) => {
                  .replace(/:/g, "")
 }
 
+let parseFileName = (data) => {
+  return data.key.split('images/')[1].replace(/%3A/g, ':')
+
+}
+
 module.exports.postData = (data) => {
   return new Promise((resolve, reject) => {
     let dataToPost = JSON.stringify({
       "dateCreated": parseDateCreated(data),
       "mediaType": parseMediaType(data),
       "url": data.Location,
-      "awsKey": data.Key
+      "awsFileName": parseFileName(data)
     })
 
     console.log('dataToPost', dataToPost)
@@ -42,25 +47,25 @@ module.exports.postData = (data) => {
   })
 }
 
-// module.exports.deleteData = (key) => {
-//   return new Promise((resolve, reject) => {
+module.exports.deleteData = (key) => {
+  return new Promise((resolve, reject) => {
+    console.log('key to delete from Mongo', key)
 
+    // console.log('dataToDelete', dataToPost)
 
-//     console.log('dataToPost', dataToPost)
+    // let options = {
+    //   method: "POST",
+    //   url: databasePostUrl,
+    //   headers: {
+    //     "content-type": "application/json",
+    //     },
+    //   body: dataToPost,
+    // }
 
-//     let options = {
-//       method: "POST",
-//       url: databasePostUrl,
-//       headers: {
-//         "content-type": "application/json",
-//         },
-//       body: dataToPost,
-//     }
-
-//     request(options, (err, res, body) => {
-//       if (err) {console.log('err', err)};
-//       console.log("Response status: ", res.statusCode)
-//       resolve()
-//     })
-//   })
-// }
+    // request(options, (err, res, body) => {
+    //   if (err) {console.log('err', err)};
+    //   console.log("Response status: ", res.statusCode)
+    //   resolve()
+    // })
+  })
+}

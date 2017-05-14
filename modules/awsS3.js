@@ -1,4 +1,5 @@
 const AWS = require("aws-sdk")
+const { deleteData } = require('./postDataToMongoDB.js')
 
 // Update AWS configuration
 AWS.config.update({
@@ -23,6 +24,7 @@ let listObjects = () => {
 }
 
 let deletePictureAWS = (key) => {
+  console.log('deletePictureAWS Key', key)
   console.log('Deleting picture from AWS S3')
 
   params = {
