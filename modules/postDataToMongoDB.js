@@ -15,27 +15,51 @@ let parseDateCreated = (data) => {
 }
 
 module.exports.postData = (data) => {
+  return new Promise((resolve, reject) => {
+    let dataToPost = JSON.stringify({
+      "dateCreated": parseDateCreated(data),
+      "mediaType": parseMediaType(data),
+      "url": data.Location
+    })
 
-  let dataToPost = JSON.stringify({
-    "dateCreated": parseDateCreated(data),
-    "mediaType": parseMediaType(data),
-    "url": data.Location
+    console.log('dataToPost', dataToPost)
+
+    let options = {
+      method: "POST",
+      url: databasePostUrl,
+      headers: {
+        "content-type": "application/json",
+        },
+      body: dataToPost,
+    }
+
+    request(options, (err, res, body) => {
+      if (err) {console.log('err', err)};
+      console.log("Response status: ", res.statusCode)
+      resolve()
+    })
   })
+}
 
-  console.log('dataToPost', dataToPost)
+// module.exports.deleteData = (key) => {
+//   return new Promise((resolve, reject) => {
 
-  let options = {
-    method: "POST",
-    url: databasePostUrl,
-    headers: {
-      "content-type": "application/json",
-      },
-    body: dataToPost,
-  }
 
-  request(options, (err, res, body) => {
-    if (err) {console.log('err', err)};
-    console.log("Response status: ", res.statusCode)
-  })
+//     console.log('dataToPost', dataToPost)
 
+//     let options = {
+//       method: "POST",
+//       url: databasePostUrl,
+//       headers: {
+//         "content-type": "application/json",
+//         },
+//       body: dataToPost,
+//     }
+
+//     request(options, (err, res, body) => {
+//       if (err) {console.log('err', err)};
+//       console.log("Response status: ", res.statusCode)
+//       resolve()
+//     })
+//   })
 }

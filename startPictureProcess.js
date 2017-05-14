@@ -1,6 +1,6 @@
 let { takePicture } = require('./modules/takePicture')
 let { readPictureFile } = require('./modules/readPictureFile')
-let { sendPictureToAWS } = require('./modules/awsS3')
+let { sendPictureToAWS, checkStorageAmount } = require('./modules/awsS3')
 let { postData } = require('./modules/postDataToMongoDB')
 let { deletePictureFile } = require('./modules/removePictureFile.js')
 
@@ -8,8 +8,6 @@ let { deletePictureFile } = require('./modules/removePictureFile.js')
 let processingImage = false;
 
 module.exports.startPictureProcess = () => {
-
-  let currentPictureFileName
 
   // Check to see if an image is currently being processed
   if (!processingImage) {
@@ -33,17 +31,19 @@ module.exports.startPictureProcess = () => {
       })
       // Send returned URL to MongoDB
       .then( (data) => {
-        postData(data)
+        return postData(data)
       })
       // Delete picture file on RPI -- Switch readFile to readStream to avoid this step?
       .then( () => {
         console.log("currentImageFile2", currentImageFile)
-        deletePictureFile(currentImageFile)
+        return deletePictureFile(currentImageFile)
       })
       // reset processingImage flag variable
       .then( () => {
         // disable this if testing
-        processingImage = false
+        //processingImage = false
+        console.log('listing objects')
+        processingImage = checkStorageAmount()
       })
 
   } // Closes if statement for proccessing image
