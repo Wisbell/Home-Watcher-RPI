@@ -55,7 +55,8 @@ module.exports.deleteData = (key) => {
     let mongoFileProperty = parseFileName(key)
     console.log('mongoFileProperty', mongoFileProperty)
 
-    request.del(databaseDeleteUrl + key, () => {
+    console.log('delete url', databaseDeleteUrl + key)
+    request.del(databaseDeleteUrl + mongoFileProperty, () => {
       console.log('Collection deleted from MongoDB - RPI')
     })
     // console.log('dataToDelete', dataToPost)

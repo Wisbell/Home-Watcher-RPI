@@ -24,6 +24,7 @@ let listObjects = () => {
 }
 
 let deletePictureAWS = (key) => {
+    return new Promise( (resolve, reject) => {
   console.log('deletePictureAWS Key', key)
   console.log('Deleting picture from AWS S3')
 
@@ -36,9 +37,10 @@ let deletePictureAWS = (key) => {
     if (err) console.log(err, err.stack);
     else {
       console.log("picture deleted!", data)
-      deleteData(key)
+      resolve(deleteData(key))
     }
   })
+})
 }
 
 module.exports.sendPictureToAWS = ( {dataBuffer, filePath} ) => {
