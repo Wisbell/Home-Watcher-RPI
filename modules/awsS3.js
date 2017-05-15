@@ -1,4 +1,5 @@
 const AWS = require("aws-sdk")
+const { deleteData } = require('./postDataToMongoDB.js')
 
 // Update AWS configuration
 AWS.config.update({
@@ -23,6 +24,8 @@ let listObjects = () => {
 }
 
 let deletePictureAWS = (key) => {
+    return new Promise( (resolve, reject) => {
+  console.log('deletePictureAWS Key', key)
   console.log('Deleting picture from AWS S3')
 
   params = {
@@ -32,8 +35,12 @@ let deletePictureAWS = (key) => {
 
   s3.deleteObject(params, (err, data) => {
     if (err) console.log(err, err.stack);
-    else     console.log("picture deleted!", data)
+    else {
+      console.log("picture deleted!", data)
+      resolve(deleteData(key))
+    }
   })
+})
 }
 
 module.exports.sendPictureToAWS = ( {dataBuffer, filePath} ) => {
@@ -67,12 +74,14 @@ module.exports.sendPictureToAWS = ( {dataBuffer, filePath} ) => {
 module.exports.checkStorageAmount = () => {
   listObjects()
     .then((objectsArray) => {
-      //console.log("objectsArray", objectsArray)
+      console.log("objectsArray", objectsArray)
       console.log("objectsArray length", objectsArray.length)
 
       if(objectsArray.length > maxNumberPictures) {
         console.log('lets delete a picture')
-        deletePicture(objectsArray[0].Key)
+        console.log('delete object key', objectsArray[0].Key)
+        deletePictureAWS(objectsArray[0].Key)
+        // deleteData(objectsArray[0].Key)
       }
       return false
     })

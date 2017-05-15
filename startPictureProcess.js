@@ -29,7 +29,7 @@ module.exports.startPictureProcess = () => {
       .then( (dataObject) => {
         return sendPictureToAWS(dataObject)
       })
-      // Send returned URL to MongoDB
+      // Send returned URL and data to MongoDB
       .then( (data) => {
         return postData(data)
       })
