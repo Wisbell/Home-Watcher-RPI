@@ -15,7 +15,7 @@ let parseDateCreated = (data) => {
 }
 
 let parseFileName = (data) => {
-  return data.key.split('images/')[1].replace(/%3A/g, ':')
+  return data.split('images/')[1].replace(/%3A/g, ':')
 
 }
 
@@ -25,7 +25,7 @@ module.exports.postData = (data) => {
       "dateCreated": parseDateCreated(data),
       "mediaType": parseMediaType(data),
       "url": data.Location,
-      "awsFileName": parseFileName(data)
+      "awsFileName": parseFileName(data.key)
     })
 
     console.log('dataToPost', dataToPost)
@@ -50,6 +50,9 @@ module.exports.postData = (data) => {
 module.exports.deleteData = (key) => {
   return new Promise((resolve, reject) => {
     console.log('key to delete from Mongo', key)
+
+    let mongoFileProperty = parseFileName(key)
+    console.log('mongoFileProperty', mongoFileProperty)
 
     // console.log('dataToDelete', dataToPost)
 

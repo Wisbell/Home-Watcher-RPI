@@ -36,7 +36,7 @@ let deletePictureAWS = (key) => {
     if (err) console.log(err, err.stack);
     else {
       console.log("picture deleted!", data)
-      deleteData(objectsArray[0].Key)
+      deleteData(key)
     }
   })
 }
