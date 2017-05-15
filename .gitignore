@@ -1,3 +1,7 @@
+# Custom Additions
+images
+.env
+
 # Logs
 logs
 *.log
