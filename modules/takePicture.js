@@ -12,7 +12,8 @@ module.exports.takePicture = () => {
     // Create argument to pass to execute raspistill
     let fileName = createFileNameAsDate()
     let createPath = "images/" + fileName
-    let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ")
+    // let cameraArgument = [ "/opt/vc/bin/raspistill", "-o", createPath ].join(" ") // orignal version
+    let cameraArgument = [ "/opt/vc/bin/raspistill", "-n", "-q 75", "-t 1", "-o", createPath ].join(" ")
 
     exec(cameraArgument, (err, stdout, stderr) => {
       if(err) {
