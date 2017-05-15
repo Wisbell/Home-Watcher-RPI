@@ -1,6 +1,7 @@
 const request = require('request')
 
 let databasePostUrl = 'http://192.168.100.4:8080/api/v1/media/new'
+let databaseDeleteUrl = 'http://192.168.100.4:8080/api/v1/media/deleteMedia/'
 
 let parseMediaType = (data) => {
   return data.key.split(".")[1]
@@ -54,6 +55,9 @@ module.exports.deleteData = (key) => {
     let mongoFileProperty = parseFileName(key)
     console.log('mongoFileProperty', mongoFileProperty)
 
+    request.del(databaseDeleteUrl + key, () => {
+      console.log('Collection deleted from MongoDB - RPI')
+    })
     // console.log('dataToDelete', dataToPost)
 
     // let options = {
