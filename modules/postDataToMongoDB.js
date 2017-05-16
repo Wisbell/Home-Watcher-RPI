@@ -1,13 +1,17 @@
 const request = require('request')
 
-let databasePostUrl = 'http://192.168.100.4:8080/api/v1/media/new'
-let databaseDeleteUrl = 'http://192.168.100.4:8080/api/v1/media/deleteMedia/'
+// let databasePostUrl = 'http://192.168.100.4:8080/api/v1/media/new'
+let databasePostUrl = 'https://home-watcher.herokuapp.com/api/v1/media/new'
+// let databaseDeleteUrl = 'http://192.168.100.4:8080/api/v1/media/deleteMedia/'
+let databaseDeleteUrl = 'https://home-watcher.herokuapp.com/api/v1/media/deleteMedia/'
 
 let parseMediaType = (data) => {
+  console.log('parseMediaType called')
   return data.key.split(".")[1]
 }
 
 let parseDateCreated = (data) => {
+  console.log('parseDateCreated called')
   return data.key.split("/")[1]
                  .split(".")[0]
                  .split("_")
@@ -16,12 +20,14 @@ let parseDateCreated = (data) => {
 }
 
 let parseFileName = (data) => {
+  console.log('parseFileName called')
   return data.split('images/')[1].replace(/%3A/g, ':')
 
 }
 
 module.exports.postData = (data) => {
   return new Promise((resolve, reject) => {
+    console.log('MongoDB postData function called')
     let dataToPost = JSON.stringify({
       "dateCreated": parseDateCreated(data),
       "mediaType": parseMediaType(data),
