@@ -17,12 +17,10 @@ module.exports.startPictureProcess = () => {
 
     //Begin Promise Chain
 
-    // Note - maybe set picture timeout to something other than default - default is 5 seconds
     takePicture()
       // Read picture file
       .then( (filePath) => {
         currentImageFile = filePath
-        console.log('currentImageFile', currentImageFile)
         return readPictureFile(filePath)
       })
       // Send picture to AWS S3
@@ -35,14 +33,10 @@ module.exports.startPictureProcess = () => {
       })
       // Delete picture file on RPI -- Switch readFile to readStream to avoid this step?
       .then( () => {
-        console.log("currentImageFile2", currentImageFile)
         return deletePictureFile(currentImageFile)
       })
       // reset processingImage flag variable
       .then( () => {
-        // disable this if testing
-        //processingImage = false
-        console.log('listing objects')
         processingImage = checkStorageAmount()
       })
 
