@@ -1,7 +1,7 @@
 # Home-Watcher-RPI
 Code for Raspberry Pi functionality for back-end capstone
 
-![Alt text](/my_rpi.jpg?raw=true "Optional Title")
+![Alt text](/my_rpi2.jpg?raw=true "Optional Title")
 
 ## Information
 
