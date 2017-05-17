@@ -11,9 +11,4 @@ module.exports.deletePictureFile = (fileName) => {
       resolve()
     })
   })
-
-  // unlink(fileName, (err) => {
-  //   if (err) return console.log(err)
-  //   console.log("Picture deleted successfully")
-  // })
 }
