@@ -18,7 +18,8 @@ board.on("ready", function(){
   console.log("board ready")
 
   // Set up motion module to use port General Purpose Input/Output port 7 on the Raspberry Pi
-  const motion = new Five.Motion('GPIO7')
+  // const motion = new Five.Motion('GPIO7')
+  const motion = new Five.Motion('GPIO8')
 
   // Make sure motion sensor is properly calibrated
   motion.on("calibrated", function(){
@@ -30,7 +31,8 @@ board.on("ready", function(){
   motion.on("motionstart", function(){
     console.log("motion started")
 
-    if(calibrated) startPictureProcess()
+    // if(calibrated) startPictureProcess()
+    if(calibrated) console.log('take picture');
   })
 
   motion.on("motionend", function(){
